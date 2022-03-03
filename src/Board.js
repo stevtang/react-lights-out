@@ -27,7 +27,7 @@ import "./Board.css";
  *
  **/
 
-function Board({ nrows = 5, ncols = 5, chanceLightStartsOn }) {
+function Board({ nrows = 5, ncols = 5, chanceLightStartsOn = 0.5 }) {
   const [board, setBoard] = useState(createBoard());
 
   /** create a board nrows high/ncols wide, each cell randomly lit or unlit */
@@ -51,6 +51,8 @@ function Board({ nrows = 5, ncols = 5, chanceLightStartsOn }) {
 
   function hasWon() {
     // TODO: check the board in state to determine whether the player has won.
+    for(let row of board){
+      return !row.find(true);
   }
 
   function flipCellsAround(coord) {
@@ -66,10 +68,15 @@ function Board({ nrows = 5, ncols = 5, chanceLightStartsOn }) {
       };
 
       // TODO: Make a (deep) copy of the oldBoard
-
+      const boardCopy = oldBoard.map(row => row.slice())
       // TODO: in the copy, flip this cell and the cells around it
-
+      flipCell(y, x, boardCopy);
+      flipCell(y+1, x, boardCopy);
+      flipCell(y-1, x, boardCopy);
+      flipCell(y, x+1, boardCopy);
+      flipCell(y, x-1, boardCopy);
       // TODO: return the copy
+      return boardCopy;
     });
   }
 
